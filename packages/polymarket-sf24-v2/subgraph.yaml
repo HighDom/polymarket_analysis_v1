@@ -25,6 +25,7 @@ dataSources:
         - TransferBatch
         - ApprovalForAll
         - URI
+        - User
       abis:
         - name: ConditionalTokens
           file: ./abis/ConditionalTokens.json
