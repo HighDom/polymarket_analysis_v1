@@ -102,3 +102,253 @@ type URI @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+type FeeCharged @entity(immutable: true) {
+  id: Bytes!
+  receiver: Bytes! # address
+  tokenId: BigInt! # uint256
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewAdmin @entity(immutable: true) {
+  id: Bytes!
+  newAdminAddress: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewOperator @entity(immutable: true) {
+  id: Bytes!
+  newOperatorAddress: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OrderCancelled @entity(immutable: true) {
+  id: Bytes!
+  orderHash: Bytes! # bytes32
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OrderFilled @entity(immutable: true) {
+  id: Bytes!
+  orderHash: Bytes! # bytes32
+  maker: Bytes! # address
+  taker: Bytes! # address
+  makerAssetId: BigInt! # uint256
+  takerAssetId: BigInt! # uint256
+  makerAmountFilled: BigInt! # uint256
+  takerAmountFilled: BigInt! # uint256
+  fee: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OrdersMatched @entity(immutable: true) {
+  id: Bytes!
+  takerOrderHash: Bytes! # bytes32
+  takerOrderMaker: Bytes! # address
+  makerAssetId: BigInt! # uint256
+  takerAssetId: BigInt! # uint256
+  makerAmountFilled: BigInt! # uint256
+  takerAmountFilled: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ProxyFactoryUpdated @entity(immutable: true) {
+  id: Bytes!
+  oldProxyFactory: Bytes! # address
+  newProxyFactory: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RemovedAdmin @entity(immutable: true) {
+  id: Bytes!
+  removedAdmin: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type RemovedOperator @entity(immutable: true) {
+  id: Bytes!
+  removedOperator: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SafeFactoryUpdated @entity(immutable: true) {
+  id: Bytes!
+  oldSafeFactory: Bytes! # address
+  newSafeFactory: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TokenRegistered @entity(immutable: true) {
+  id: Bytes!
+  token0: BigInt! # uint256
+  token1: BigInt! # uint256
+  conditionId: Bytes! # bytes32
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TradingPaused @entity(immutable: true) {
+  id: Bytes!
+  pauser: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TradingUnpaused @entity(immutable: true) {
+  id: Bytes!
+  pauser: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+type NegRiskCtfExchangeFeeCharged @entity(immutable: true) {
+  id: Bytes!
+  receiver: Bytes! # address
+  tokenId: BigInt! # uint256
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeNewAdmin @entity(immutable: true) {
+  id: Bytes!
+  newAdminAddress: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeNewOperator @entity(immutable: true) {
+  id: Bytes!
+  newOperatorAddress: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeOrderCancelled @entity(immutable: true) {
+  id: Bytes!
+  orderHash: Bytes! # bytes32
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeOrderFilled @entity(immutable: true) {
+  id: Bytes!
+  orderHash: Bytes! # bytes32
+  maker: Bytes! # address
+  taker: Bytes! # address
+  makerAssetId: BigInt! # uint256
+  takerAssetId: BigInt! # uint256
+  makerAmountFilled: BigInt! # uint256
+  takerAmountFilled: BigInt! # uint256
+  fee: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeOrdersMatched @entity(immutable: true) {
+  id: Bytes!
+  takerOrderHash: Bytes! # bytes32
+  takerOrderMaker: Bytes! # address
+  makerAssetId: BigInt! # uint256
+  takerAssetId: BigInt! # uint256
+  makerAmountFilled: BigInt! # uint256
+  takerAmountFilled: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeProxyFactoryUpdated @entity(immutable: true) {
+  id: Bytes!
+  oldProxyFactory: Bytes! # address
+  newProxyFactory: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeRemovedAdmin @entity(immutable: true) {
+  id: Bytes!
+  removedAdmin: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeRemovedOperator @entity(immutable: true) {
+  id: Bytes!
+  removedOperator: Bytes! # address
+  admin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeSafeFactoryUpdated @entity(immutable: true) {
+  id: Bytes!
+  oldSafeFactory: Bytes! # address
+  newSafeFactory: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeTokenRegistered @entity(immutable: true) {
+  id: Bytes!
+  token0: BigInt! # uint256
+  token1: BigInt! # uint256
+  conditionId: Bytes! # bytes32
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeTradingPaused @entity(immutable: true) {
+  id: Bytes!
+  pauser: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NegRiskCtfExchangeTradingUnpaused @entity(immutable: true) {
+  id: Bytes!
+  pauser: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
