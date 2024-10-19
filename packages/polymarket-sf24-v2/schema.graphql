@@ -1,0 +1,104 @@
+type ConditionPreparation @entity(immutable: true) {
+  id: Bytes!
+  conditionId: Bytes! # bytes32
+  oracle: Bytes! # address
+  questionId: Bytes! # bytes32
+  outcomeSlotCount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ConditionResolution @entity(immutable: true) {
+  id: Bytes!
+  conditionId: Bytes! # bytes32
+  oracle: Bytes! # address
+  questionId: Bytes! # bytes32
+  outcomeSlotCount: BigInt! # uint256
+  payoutNumerators: [BigInt!]! # uint256[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PositionSplit @entity(immutable: true) {
+  id: Bytes!
+  stakeholder: Bytes! # address
+  collateralToken: Bytes! # address
+  parentCollectionId: Bytes! # bytes32
+  conditionId: Bytes! # bytes32
+  partition: [BigInt!]! # uint256[]
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PositionsMerge @entity(immutable: true) {
+  id: Bytes!
+  stakeholder: Bytes! # address
+  collateralToken: Bytes! # address
+  parentCollectionId: Bytes! # bytes32
+  conditionId: Bytes! # bytes32
+  partition: [BigInt!]! # uint256[]
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type PayoutRedemption @entity(immutable: true) {
+  id: Bytes!
+  redeemer: Bytes! # address
+  collateralToken: Bytes! # address
+  parentCollectionId: Bytes! # bytes32
+  conditionId: Bytes! # bytes32
+  indexSets: [BigInt!]! # uint256[]
+  payout: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TransferSingle @entity(immutable: true) {
+  id: Bytes!
+  operator: Bytes! # address
+  from: Bytes! # address
+  to: Bytes! # address
+  ConditionalTokens_id: BigInt! # uint256
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TransferBatch @entity(immutable: true) {
+  id: Bytes!
+  operator: Bytes! # address
+  from: Bytes! # address
+  to: Bytes! # address
+  ids: [BigInt!]! # uint256[]
+  values: [BigInt!]! # uint256[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ApprovalForAll @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  operator: Bytes! # address
+  approved: Boolean! # bool
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type URI @entity(immutable: true) {
+  id: Bytes!
+  value: String! # string
+  ConditionalTokens_id: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
