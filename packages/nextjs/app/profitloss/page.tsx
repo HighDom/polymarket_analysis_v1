@@ -1,6 +1,6 @@
-// app/profitloss/page.tsx
 import React from "react";
 import client from "../../apollo-client";
+import ExpandableCopyField from "../../components/ExpandableCopyField";
 import { gql } from "@apollo/client";
 
 // Define TypeScript types for the data
@@ -11,36 +11,25 @@ interface UserPosition {
   amount: string;
 }
 
-interface NegRiskEvent {
-  id: string;
-  questionCount: number;
-}
-
 interface ProfitLossData {
   userPositions: UserPosition[];
-  negRiskEvents: NegRiskEvent[];
 }
 
 const DATA_QUERY = gql`
   {
-    userPositions(first: 5) {
+    userPositions {
       id
       user
       tokenId
       amount
     }
-    negRiskEvents(first: 5) {
-      id
-      questionCount
-    }
   }
 `;
 
 async function fetchData(): Promise<ProfitLossData> {
-  const { data } = await client.query<{ userPositions: UserPosition[]; negRiskEvents: NegRiskEvent[] }>({
+  const { data } = await client.query<{ userPositions: UserPosition[] }>({
     query: DATA_QUERY,
   });
-
   return data;
 }
 
@@ -48,25 +37,52 @@ export default async function ProfitLossPage() {
   const data = await fetchData();
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Profit and Loss Data</h1>
-      <h2>User Positions</h2>
-      <ul>
-        {data.userPositions.map(position => (
-          <li key={position.id}>
-            <strong>ID:</strong> {position.id} | <strong>User:</strong> {position.user} | <strong>Token ID:</strong>{" "}
-            {position.tokenId} | <strong>Amount:</strong> {position.amount}
-          </li>
-        ))}
-      </ul>
-      <h2>NegRisk Events</h2>
-      <ul>
-        {data.negRiskEvents.map(event => (
-          <li key={event.id}>
-            <strong>ID:</strong> {event.id} | <strong>Question Count:</strong> {event.questionCount}
-          </li>
-        ))}
-      </ul>
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">Profit and Loss Data</h1>
+
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4">User Positions</h2>
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full text-left text-sm">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="px-4 py-2">ID</th>
+                <th className="px-4 py-2">User</th>
+                <th className="px-4 py-2">Token ID</th>
+                <th className="px-4 py-2">Amount in USDC</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.userPositions.map(position => (
+                <tr key={position.id} className="border-t">
+                  <td className="px-4 py-2">
+                    <ExpandableCopyField value={position.id} />
+                  </td>
+                  <td className="px-4 py-2">
+                    <a
+                      href={`https://polygonscan.com/address/${position.user}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      <ExpandableCopyField value={position.user} />
+                    </a>
+                  </td>
+                  <td className="px-4 py-2">
+                    <ExpandableCopyField value={position.tokenId} />
+                  </td>
+                  <td className="px-4 py-2">
+                    {(parseFloat(position.amount) / 1e6).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }

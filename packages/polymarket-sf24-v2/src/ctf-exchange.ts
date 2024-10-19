@@ -14,7 +14,6 @@ import {
   TradingUnpaused as TradingUnpausedEvent,
 } from "../generated/CTFExchange/CTFExchange"
 import {
-  User,
   FeeCharged,
   NewAdmin,
   NewOperator,
@@ -102,18 +101,6 @@ export function handleOrderFilled(event: OrderFilledEvent): void {
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
-
-  let makerUser = User.load(event.params.maker.toHex())
-  if (!makerUser) {
-    makerUser = new User(event.params.maker.toHex())
-    makerUser.save()
-  }
-  
-  let takerUser = User.load(event.params.taker.toHex())
-  if (!takerUser) {
-    takerUser = new User(event.params.taker.toHex())
-    takerUser.save()
-  }
 
   entity.save()
 }

@@ -1,8 +1,3 @@
-type User @entity {
-  id: ID!
-  address: String!
-}
-
 type ConditionPreparation @entity(immutable: true) {
   id: Bytes!
   conditionId: Bytes! # bytes32

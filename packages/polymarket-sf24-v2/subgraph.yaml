@@ -10,7 +10,7 @@ dataSources:
     source:
       address: "0x4D97DCd97eC945f40cF65F87097ACe5EA0476045"
       abi: ConditionalTokens
-      startBlock: 4023686
+      startBlock: 63231200
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -25,7 +25,6 @@ dataSources:
         - TransferBatch
         - ApprovalForAll
         - URI
-        - User
       abis:
         - name: ConditionalTokens
           file: ./abis/ConditionalTokens.json
@@ -59,7 +58,7 @@ dataSources:
     source:
       address: "0x4bFb41d5B3570DeFd03C39a9A4D8dE6Bd8B8982E"
       abi: CTFExchange
-      startBlock: 33605403
+      startBlock: 63208000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -116,7 +115,7 @@ dataSources:
     source:
       address: "0xC5d563A36AE78145C45a50134d48A1215220f80a"
       abi: NegRiskCtfExchange
-      startBlock: 50505492
+      startBlock: 63207800
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
