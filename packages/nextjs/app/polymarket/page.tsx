@@ -192,7 +192,7 @@ export default function ProfitLossPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Profit and Loss Data</h1>
+      <h1 className="text-3xl font-bold mb-6">Largest Order Filled</h1>
 
       {/* Chart Section */}
       <section className="mb-8">

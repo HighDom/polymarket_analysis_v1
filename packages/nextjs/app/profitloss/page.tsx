@@ -4,11 +4,20 @@ import React from "react";
 import client from "../../apollo-client";
 import ExpandableCopyField from "../../components/ExpandableCopyField";
 import { gql } from "@apollo/client";
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
-// Import chart components
-import { Doughnut } from "react-chartjs-2";
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Tooltip as ChartTooltip,
+  Legend,
+  LineController,
+  LineElement,
+  LinearScale,
+  PointElement,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+// Register the required chart components
+ChartJS.register(LineController, LineElement, PointElement, LinearScale, ChartTooltip, Legend, CategoryScale);
 
 // Define TypeScript types for the data
 interface UserPosition {
@@ -24,7 +33,7 @@ interface ProfitLossData {
 
 const DATA_QUERY = gql`
   {
-    userPositions(orderBy: amount, orderDirection: desc) {
+    userPositions(first: 20, orderBy: amount, orderDirection: desc) {
       id
       user
       tokenId
@@ -43,70 +52,63 @@ async function fetchData(): Promise<ProfitLossData> {
 export default async function ProfitLossPage() {
   const data = await fetchData();
 
-  // Process data for the doughnut chart
-  const topPositions = data.userPositions.slice(0, 5); // Get top 5 positions
-  const otherPositions = data.userPositions.slice(5);
+  // Process data for the chart
+  const chartDataPoints = data.userPositions.map(position => {
+    const xValue = position.tokenId; // Use tokenId as x-axis
+    const yValue = parseFloat(position.amount) / 1e6; // Convert amount to USDC units
+    return { x: xValue, y: yValue };
+  });
 
-  // Calculate total amount of other positions
-  const otherAmount = otherPositions.reduce((sum, position) => {
-    return sum + parseFloat(position.amount) / 1e6;
-  }, 0);
-
-  // Prepare labels and amounts
-  const labels = topPositions.map(position => `${position.user.substring(0, 6)}...`);
-  if (otherAmount > 0) {
-    labels.push("Others");
-  }
-
-  const amounts = topPositions.map(position => parseFloat(position.amount) / 1e6);
-  if (otherAmount > 0) {
-    amounts.push(otherAmount);
-  }
-
-  // Define colors for the chart
-  const backgroundColors = [
-    "#FF6384", // red
-    "#36A2EB", // blue
-    "#FFCE56", // yellow
-    "#4BC0C0", // teal
-    "#9966FF", // purple
-    "#C9CBCF", // grey for 'Others'
-  ];
-
+  // Prepare data and options for the chart
   const chartData = {
-    labels: labels,
+    labels: data.userPositions.map(() => ""),
     datasets: [
       {
-        data: amounts,
-        backgroundColor: backgroundColors.slice(0, labels.length),
-        hoverBackgroundColor: backgroundColors.slice(0, labels.length),
+        label: "Amount in USDC",
+        data: chartDataPoints.map(point => point.y),
+        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "rgba(75,192,192,0.2)",
+        fill: true,
+        pointRadius: 5,
+        pointHoverRadius: 7,
       },
     ],
   };
 
   const chartOptions = {
-    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: false,
+          text: "Token ID",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Amount in USDC",
+        },
+      },
+    },
     plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Top User Positions",
-      },
       tooltip: {
         callbacks: {
           label: function (context: any) {
-            const label = context.label || "";
-            const value = context.parsed;
-            return `${label}: ${value.toLocaleString(undefined, {
+            const label = context.dataset.label || "";
+            const yValue = context.parsed.y;
+            return `${label}: ${yValue.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })} USDC`;
           },
         },
       },
+      legend: {
+        display: false,
+      },
     },
+    responsive: true,
+    maintainAspectRatio: false,
   };
 
   return (
@@ -115,13 +117,11 @@ export default async function ProfitLossPage() {
 
       {/* Chart Section */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">User Positions Distribution</h2>
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <Doughnut data={chartData} options={chartOptions} />
+        <div style={{ width: "100%", height: 300 }}>
+          <Line data={chartData} options={chartOptions} />
         </div>
       </section>
 
-      {/* Existing table code */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">User Positions</h2>
         <div className="overflow-x-auto">
