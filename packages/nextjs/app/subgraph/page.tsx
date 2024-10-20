@@ -55,9 +55,9 @@ async function fetchData(id: string): Promise<{ account: AccountData }> {
 
 function getBackgroundColorTrade(profitValue: number): string {
   if (profitValue > 0) {
-    return "bg-green";
+    return "bg-green-200";
   } else if (profitValue < 0) {
-    return "bg-red";
+    return "bg-red-200";
   } else {
     return "";
   }
