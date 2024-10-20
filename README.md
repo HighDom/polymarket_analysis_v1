@@ -22,6 +22,7 @@ Polymarket Analytics lets you to fetch and analyze trades made by any account on
   - See [Substream Powered Subgraph Folder](substreams_powered_subgraph/)
     This graph has not been ublished but has been used in our dashboard. The ABI for the Polymarket CTF Exchange Contract is defective so we had to make due with the Conditional Tokens Contract for data.
     We created the substream using the Codespace Devcontainer and we manually uploaded the relevant files to this github repo. Codespace provided by The Graph can be found [here](https://github.com/codespaces/new/streamingfast/substreams-starter?machine=standardLinux32gb)
+  - Our codespace used to generate the substream: [codespace](https://github.com/cbuob/thegraph_polymarket_analytics_substream)
 
 ## Future Plans
 Add functionality to copy trades of other polymarket accounts. Substreams would allow for low latency copying of trades.
