@@ -1,7 +1,23 @@
+"use client";
+
 import React from "react";
 import client from "../../apollo-client";
 import ExpandableCopyField from "../../components/ExpandableCopyField";
 import { gql } from "@apollo/client";
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Tooltip as ChartTooltip,
+  Legend,
+  LineController,
+  LineElement,
+  LinearScale,
+  PointElement,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+// Register the required chart components
+ChartJS.register(LineController, LineElement, PointElement, LinearScale, ChartTooltip, Legend, CategoryScale);
 
 // Define TypeScript types for the data
 interface UserPosition {
@@ -17,7 +33,7 @@ interface ProfitLossData {
 
 const DATA_QUERY = gql`
   {
-    userPositions(orderBy: amount, orderDirection: desc) {
+    userPositions(first: 20, orderBy: amount, orderDirection: desc) {
       id
       user
       tokenId
@@ -36,9 +52,75 @@ async function fetchData(): Promise<ProfitLossData> {
 export default async function ProfitLossPage() {
   const data = await fetchData();
 
+  // Process data for the chart
+  const chartDataPoints = data.userPositions.map(position => {
+    const xValue = position.tokenId; // Use tokenId as x-axis
+    const yValue = parseFloat(position.amount) / 1e6; // Convert amount to USDC units
+    return { x: xValue, y: yValue };
+  });
+
+  // Prepare data and options for the chart
+  const chartData = {
+    labels: data.userPositions.map(() => ""),
+    datasets: [
+      {
+        label: "Amount in USDC",
+        data: chartDataPoints.map(point => point.y),
+        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "rgba(75,192,192,0.2)",
+        fill: true,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      x: {
+        title: {
+          display: false,
+          text: "Token ID",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Amount in USDC",
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            const label = context.dataset.label || "";
+            const yValue = context.parsed.y;
+            return `${label}: ${yValue.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })} USDC`;
+          },
+        },
+      },
+      legend: {
+        display: false,
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Profit and Loss Data</h1>
+
+      {/* Chart Section */}
+      <section className="mb-8">
+        <div style={{ width: "100%", height: 300 }}>
+          <Line data={chartData} options={chartOptions} />
+        </div>
+      </section>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">User Positions</h2>
