@@ -1091,6 +1091,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "@kurkle/color@npm:0.3.2"
+  checksum: 79e97b31f8f6efb28c69d373f94b0c7480226fe8ec95221f518ac998e156444a496727ce47de6d728eb5c3369288e794cba82cae34253deb0d472d3bfe080e49
+  languageName: node
+  linkType: hard
+
 "@lit-labs/ssr-dom-shim@npm:^1.0.0, @lit-labs/ssr-dom-shim@npm:^1.1.0":
   version: 1.2.1
   resolution: "@lit-labs/ssr-dom-shim@npm:1.2.1"
@@ -5847,6 +5854,25 @@ __metadata:
   version: 0.0.2
   resolution: "charenc@npm:0.0.2"
   checksum: 81dcadbe57e861d527faf6dd3855dc857395a1c4d6781f4847288ab23cffb7b3ee80d57c15bba7252ffe3e5e8019db767757ee7975663ad2ca0939bb8fcaf2e5
+  languageName: node
+  linkType: hard
+
+"chart.js@npm:^4.4.5":
+  version: 4.4.5
+  resolution: "chart.js@npm:4.4.5"
+  dependencies:
+    "@kurkle/color": ^0.3.0
+  checksum: 85fda8749bbcfd20f7809b2abb64dd9be720d97b24e14de8aaf9a14407b45218de5757ae28538061a87c453b8b2b301f2b697f93e18c8a8466d58aec1695ad3e
+  languageName: node
+  linkType: hard
+
+"chartjs-adapter-moment@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "chartjs-adapter-moment@npm:1.0.1"
+  peerDependencies:
+    chart.js: ">=3.0.0"
+    moment: ^2.10.2
+  checksum: 2d0455bce53bd398b206a32eb387a3cc3957f7f9bb9094556a11be9e13ef87913c11e3e854b2ccab6513a607282896ebe9881cdc00b7b122bba36871bf845121
   languageName: node
   linkType: hard
 
@@ -12201,6 +12227,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment@npm:^2.30.1":
+  version: 2.30.1
+  resolution: "moment@npm:2.30.1"
+  checksum: 859236bab1e88c3e5802afcf797fc801acdbd0ee509d34ea3df6eea21eb6bcc2abd4ae4e4e64aa7c986aa6cba563c6e62806218e6412a765010712e5fa121ba6
+  languageName: node
+  linkType: hard
+
 "motion@npm:10.16.2":
   version: 10.16.2
   resolution: "motion@npm:10.16.2"
@@ -13860,6 +13893,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-chartjs-2@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "react-chartjs-2@npm:5.2.0"
+  peerDependencies:
+    chart.js: ^4.1.1
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: ace702185be1450e5888a8bcd8b5fc1995067e3b11d236764a67f5567a3d7c32ff16923b8d48d3d39bda6e45135da6c044c9b43fbe8e1978f95aca9d2c0ce348
+  languageName: node
+  linkType: hard
+
 "react-copy-to-clipboard@npm:~5.1.0":
   version: 5.1.0
   resolution: "react-copy-to-clipboard@npm:5.1.0"
@@ -14650,8 +14693,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "se-2@workspace:."
   dependencies:
+    chart.js: ^4.4.5
+    chartjs-adapter-moment: ^1.0.1
     husky: ~8.0.3
     lint-staged: ~13.2.2
+    moment: ^2.30.1
+    react-chartjs-2: ^5.2.0
     react-icons: ^5.3.0
     recharts: ^2.13.0
   languageName: unknown

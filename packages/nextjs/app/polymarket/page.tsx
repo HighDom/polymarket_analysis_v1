@@ -4,6 +4,32 @@ import React, { useMemo, useState } from "react";
 import ExpandableCopyField from "../../components/ExpandableCopyField";
 import polysf_client from "../../polysf-client";
 import { gql } from "@apollo/client";
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Tooltip as ChartTooltip,
+  Legend,
+  LineController,
+  LineElement,
+  LinearScale,
+  PointElement,
+  TimeScale,
+} from "chart.js";
+import "chartjs-adapter-moment";
+import moment from "moment";
+import { Line } from "react-chartjs-2";
+
+// Register the required chart components
+ChartJS.register(
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  TimeScale,
+  ChartTooltip,
+  Legend,
+  CategoryScale,
+);
 
 // Define TypeScript types for the data
 interface OrderMatched {
@@ -84,10 +110,98 @@ export default function ProfitLossPage() {
     setSortConfig({ key, direction });
   };
 
+  // Process data for the chart
+  const chartDataPoints = data.ordersMatcheds
+    .filter(order => order.makerAssetId === "0" || order.takerAssetId === "0")
+    .map(order => {
+      const timestamp = parseInt(order.blockTimestamp) * 1000; // Convert to milliseconds
+      const date = new Date(timestamp);
+      const usdcAmount =
+        order.makerAssetId === "0"
+          ? parseFloat(order.makerAmountFilled) / 1e6
+          : parseFloat(order.takerAmountFilled) / 1e6;
+      return { x: date, y: usdcAmount };
+    })
+    .sort((a, b) => a.x.getTime() - b.x.getTime());
+
+  // Get first and last dates for X-axis label
+  const firstDate = chartDataPoints[0]?.x;
+  const lastDate = chartDataPoints[chartDataPoints.length - 1]?.x;
+
+  const formattedFirstDate = firstDate ? moment(firstDate).format("DD-MMM") : "";
+  const formattedLastDate = lastDate ? moment(lastDate).format("DD-MMM") : "";
+
+  // Prepare data and options for the chart
+  const chartData = {
+    datasets: [
+      {
+        label: "USDC Used",
+        data: chartDataPoints,
+        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "rgba(75,192,192,0.2)",
+        fill: true,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      x: {
+        type: "time" as const,
+        time: {
+          unit: "day" as const,
+          tooltipFormat: "DD-MMM",
+          displayFormats: {
+            day: "DD-MMM",
+          },
+        },
+        title: {
+          display: true,
+          text: `${formattedFirstDate} - ${formattedLastDate}`,
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "USDC Amount",
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            const label = context.dataset.label || "";
+            const yValue = context.parsed.y;
+            return `${label}: ${yValue.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })} USDC`;
+          },
+        },
+      },
+      legend: {
+        display: false,
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Profit and Loss Data</h1>
 
+      {/* Chart Section */}
+      <section className="mb-8">
+        <div style={{ width: "100%", height: 300 }}>
+          <Line data={chartData} options={chartOptions} />
+        </div>
+      </section>
+
+      {/* Existing table code */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Orders Matched</h2>
         <div className="overflow-x-auto">
