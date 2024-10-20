@@ -15,20 +15,30 @@ interface ProfitLossData {
   userPositions: UserPosition[];
 }
 
-const DATA_QUERY = gql`
-  {
-    userPositions(orderBy: amount, orderDirection: desc) {
+const ACCOUNT_QUERY = gql`
+  query ($id: ID!) {
+    account(id: $id) {
       id
-      user
-      tokenId
-      amount
+      creationTimestamp
+      lastSeenTimestamp
+      collateralVolume
+      lastTradedTimestamp
+      numTrades
+      profit
+      scaledCollateralVolume
+      scaledProfit
+      marketProfits {
+        id
+        profit
+        scaledProfit
+      }
     }
   }
 `;
 
 async function fetchData(): Promise<ProfitLossData> {
   const { data } = await client.query<{ userPositions: UserPosition[] }>({
-    query: DATA_QUERY,
+    query: ACCOUNT_QUERY,
   });
   return data;
 }
