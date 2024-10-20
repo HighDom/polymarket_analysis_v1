@@ -121,12 +121,10 @@ export default function ProfitLossPage() {
                 label: "Last Seen Timestamp",
                 value: formatTimestamp(data.account.lastSeenTimestamp),
               },
-              { label: "Collateral Volume", value: data.account.collateralVolume },
               {
                 label: "Last Traded Timestamp",
                 value: formatTimestamp(data.account.lastTradedTimestamp),
               },
-              { label: "Number of Trades", value: data.account.numTrades },
               {
                 label: "Profit in USDC",
                 value: (parseFloat(data.account.profit) / 1e6).toLocaleString(undefined, {
