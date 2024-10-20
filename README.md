@@ -17,8 +17,8 @@ Polymarket Analytics lets you to fetch and analyze trades made by any account on
 - Subgraphs Used: 
   - [Profit & Loss Subgraph](https://thegraph.com/explorer/subgraphs/6c58N5U4MtQE2Y8njfVrrAfRykzfqajMGeTMEvMmskVz?view=Query&chain=arbitrum-one)
   - [PolyMarket General Subgraph](https://thegraph.com/explorer/subgraphs/81Dm16JjuFSrqz813HysXoUPvzTwE7fsfPk2RTf66nyC?view=Query&chain=arbitrum-one)
-- Subgraph Made: [Polymarket SF Trade Subgraph](https://thegraph.com/studio/subgraph/polymarket-sf24-v2/)
-- Substream Powered Subgraph: 
+- Our Own Custom Subgraph : [Polymarket SF Trade Subgraph](https://thegraph.com/studio/subgraph/polymarket-sf24-v2/)
+- Our own Substream Powered Subgraph: 
   - See [Substream Powered Subgraph Folder](substreams_powered_subgraph/)
     This graph has not been ublished but has been used in our dashboard. The ABI for the Polymarket CTF Exchange Contract is defective so we had to make due with the Conditional Tokens Contract for data.
     We created the substream using the Codespace Devcontainer and we manually uploaded the relevant files to this github repo. Codespace provided by The Graph can be found [here](https://github.com/codespaces/new/streamingfast/substreams-starter?machine=standardLinux32gb)
