@@ -162,7 +162,6 @@ export default function ProfitLossPage() {
               <thead>
                 <tr className="bg-gray-200">
                   <th className="px-4 py-2">ID</th>
-                  <th className="px-4 py-2">Background Color</th>
                   <th className="px-4 py-2">Profit in USDC</th>
                 </tr>
               </thead>
@@ -172,11 +171,10 @@ export default function ProfitLossPage() {
                   const rowBackgroundColor = getBackgroundColorTrade(profitValue) || "";
 
                   return (
-                    <tr key={mp.id} className={`border-t hover:bg-gray-100  ${rowBackgroundColor}`}>
+                    <tr key={mp.id} className={`border-t hover:bg-gray-100 ${rowBackgroundColor}`}>
                       <td className="px-4 py-2">
                         <ExpandableCopyField value={mp.id} />
                       </td>
-                      <td className="px-4 py-2">{rowBackgroundColor}</td>
                       <td className="px-4 py-2">
                         {profitValue.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
