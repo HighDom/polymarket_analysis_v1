@@ -1,7 +1,7 @@
 # Polymarket Analytics
 
-![Polymarket Analytics](Home.png)
-![Polymarket Analytics](Account Analytics.png)
+![Home](images/Home.png)
+![Polymarket Account Analytics](images/Account%20Analytics.pngAccount Analytics.png)
 
 ## Short Description
 
