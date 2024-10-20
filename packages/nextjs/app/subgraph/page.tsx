@@ -67,7 +67,7 @@ function getBackgroundColorTrade(profitValue: number): string {
 }
 
 export default function ProfitLossPage() {
-  const [id, setId] = useState("0x569454cb394f29627f8ab5a673f9da99be8e0aa5");
+  const [id, setId] = useState("0x1f2dd6d473f3e824cd2f8a89d9c69fb96f6ad0cf");
   const [data, setData] = useState<{ account: AccountData } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -165,14 +165,19 @@ export default function ProfitLossPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6 flex items-center">
-        <FaUserCircle />
-        Account Data
+      <h1 className="text-3xl font-bold mb-0 flex items-center">
+        <span className="mr-2">
+          <FaUserCircle />
+        </span>{" "}
+        Analyze Specific Polymarket Account
       </h1>
-
+      <p className="mb-6 text-gray-500">
+        This page allows you to search for a Polymarket account and view its analytics, including creation timestamp,
+        last seen timestamp, profit in USDC, and collateral volume.
+      </p>
       <form onSubmit={handleSubmit} className="mb-6">
         <label className="block mb-2">
-          <span className="text-lg font-semibold">Account ID:</span>
+          <span className="text-lg font-semibold">Polymarket Account Address:</span>
           <input type="text" value={id} onChange={handleInputChange} className="border p-2 w-full mt-1 rounded" />
         </label>
         <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-2">
@@ -222,11 +227,11 @@ export default function ProfitLossPage() {
           </div>
 
           {/* Chart Section */}
-          <h2 className="text-2xl font-semibold mb-4">Profit Distribution</h2>
+          <h2 className="text-2xl font-semibold mb-4">Market Position Magnitudes</h2>
           {chartComponent}
 
           {/* Existing table code */}
-          <h2 className="text-2xl font-semibold mb-4">Market Profits</h2>
+          <h2 className="text-2xl font-semibold mb-4">Market Positions</h2>
           <div className="overflow-x-auto">
             <table className="table-auto w-full text-left text-sm shadow rounded">
               <thead>
