@@ -4,9 +4,12 @@ import React, { useState } from "react";
 import ExpandableCopyField from "../../components/ExpandableCopyField";
 import poly_apollo_client from "../../poly-apollo-client";
 import { gql } from "@apollo/client";
+import { BarElement, CategoryScale, Chart as ChartJS, Tooltip as ChartTooltip, Legend, LinearScale } from "chart.js";
+// Import charting libraries
+import { Bar } from "react-chartjs-2";
 import { FaUserCircle } from "react-icons/fa";
 
-// Importing an icon
+ChartJS.register(BarElement, CategoryScale, LinearScale, ChartTooltip, Legend);
 
 // Define TypeScript types for the data
 interface MarketProfit {
@@ -37,7 +40,7 @@ const ACCOUNT_QUERY = gql`
       numTrades
       profit
       scaledCollateralVolume
-      marketProfits(orderBy: profit, orderDirection: desc) {
+      marketProfits {
         id
         profit
       }
@@ -98,6 +101,68 @@ export default function ProfitLossPage() {
     });
   };
 
+  // Process data for the bar chart
+  let chartComponent = null;
+  if (data && data.account) {
+    const profits = data.account.marketProfits.map(mp => parseFloat(mp.profit) / 1e6);
+
+    // Prepare data for the bar chart
+    const chartData = {
+      labels: profits.map(() => ``),
+      datasets: [
+        {
+          label: "Profit in USDC",
+          data: profits,
+          backgroundColor: profits.map(value => (value >= 0 ? "rgba(75,192,192,0.6)" : "rgba(255,99,132,0.6)")),
+          borderColor: profits.map(value => (value >= 0 ? "rgba(75,192,192,1)" : "rgba(255,99,132,1)")),
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const chartOptions = {
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Trades",
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Profit in USDC",
+          },
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context: any) {
+              const value = context.parsed.y;
+              return `Profit: ${value.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })} USDC`;
+            },
+          },
+        },
+        legend: {
+          display: false,
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    };
+
+    chartComponent = (
+      <div className="mb-8" style={{ width: "100%", height: 400 }}>
+        <Bar data={chartData} options={chartOptions} />
+      </div>
+    );
+  }
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6 flex items-center">
@@ -156,6 +221,11 @@ export default function ProfitLossPage() {
             ))}
           </div>
 
+          {/* Chart Section */}
+          <h2 className="text-2xl font-semibold mb-4">Profit Distribution</h2>
+          {chartComponent}
+
+          {/* Existing table code */}
           <h2 className="text-2xl font-semibold mb-4">Market Profits</h2>
           <div className="overflow-x-auto">
             <table className="table-auto w-full text-left text-sm shadow rounded">
