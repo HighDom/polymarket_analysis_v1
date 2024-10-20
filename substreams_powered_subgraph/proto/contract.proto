@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package contract.v1;
+message Events {
+    repeated Polymarketconditionaltokens_ApprovalForAll polymarketconditionaltokens_approval_for_alls = 1;
+    repeated Polymarketconditionaltokens_ConditionPreparation polymarketconditionaltokens_condition_preparations = 2;
+    repeated Polymarketconditionaltokens_ConditionResolution polymarketconditionaltokens_condition_resolutions = 3;
+    repeated Polymarketconditionaltokens_PayoutRedemption polymarketconditionaltokens_payout_redemptions = 4;
+    repeated Polymarketconditionaltokens_PositionSplit polymarketconditionaltokens_position_splits = 5;
+    repeated Polymarketconditionaltokens_PositionsMerge polymarketconditionaltokens_positions_merges = 6;
+    repeated Polymarketconditionaltokens_TransferBatch polymarketconditionaltokens_transfer_batches = 7;
+    repeated Polymarketconditionaltokens_TransferSingle polymarketconditionaltokens_transfer_singles = 8;
+    repeated Polymarketconditionaltokens_Uri polymarketconditionaltokens_uris = 9;
+}
+message Polymarketconditionaltokens_ApprovalForAll {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes owner = 5;
+    bytes operator = 6;
+    bool approved = 7;
+}
+message Polymarketconditionaltokens_ConditionPreparation {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes condition_id = 5;
+    bytes oracle = 6;
+    bytes question_id = 7;
+    string outcome_slot_count = 8;
+}
+message Polymarketconditionaltokens_ConditionResolution {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes condition_id = 5;
+    bytes oracle = 6;
+    bytes question_id = 7;
+    string outcome_slot_count = 8;
+    repeated string payout_numerators = 9;
+}
+message Polymarketconditionaltokens_PayoutRedemption {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes redeemer = 5;
+    bytes collateral_token = 6;
+    bytes parent_collection_id = 7;
+    bytes condition_id = 8;
+    repeated string index_sets = 9;
+    string payout = 10;
+}
+message Polymarketconditionaltokens_PositionSplit {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes stakeholder = 5;
+    bytes collateral_token = 6;
+    bytes parent_collection_id = 7;
+    bytes condition_id = 8;
+    repeated string partition = 9;
+    string amount = 10;
+}
+message Polymarketconditionaltokens_PositionsMerge {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes stakeholder = 5;
+    bytes collateral_token = 6;
+    bytes parent_collection_id = 7;
+    bytes condition_id = 8;
+    repeated string partition = 9;
+    string amount = 10;
+}
+message Polymarketconditionaltokens_TransferBatch {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes operator = 5;
+    bytes from = 6;
+    bytes to = 7;
+    repeated string ids = 8;
+    repeated string values = 9;
+}
+message Polymarketconditionaltokens_TransferSingle {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes operator = 5;
+    bytes from = 6;
+    bytes to = 7;
+    string id = 8;
+    string value = 9;
+}
+message Polymarketconditionaltokens_Uri {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string value = 5;
+    string id = 6;
+}
+  
