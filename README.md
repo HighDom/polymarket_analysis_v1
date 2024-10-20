@@ -47,8 +47,8 @@ Polymarket Analytics lets you to fetch and analyze trades made by any account on
 2. Open your browser and navigate to `http://localhost:3000`.
 
 
-## Acknowledgements
+## Acknowledgements & Resources
 
-- The Graph (special Thanks to Giuliano)
+- The Graph (thanks to Giuliano for answering answering our questions even after 12PM!)
 - Scaffold-ETH-2
 - Polymarket
