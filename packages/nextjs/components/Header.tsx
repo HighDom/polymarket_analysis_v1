@@ -20,7 +20,7 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "Subgraph",
+    label: "Account Analytics",
     href: "/subgraph",
     icon: <MagnifyingGlassIcon className="h-4 w-4" />,
   },
