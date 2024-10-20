@@ -1,0 +1,19 @@
+specVersion: 1.0.0
+description: polymarket-conditional-tokens Substreams-powered-Subgraph
+indexerHints:
+  prune: auto
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: substreams
+    name: polymarket_conditional_tokens
+    network: matic
+    source:
+      package:
+        moduleName: map_events
+        file: polymarket-conditional-tokens-v0.1.0.spkg
+    mapping:
+      apiVersion: 0.0.7
+      kind: substreams/graph-entities
+      file: polymarket_conditional_tokens/polymarket_conditional_tokens.wasm
+      handler: handleTriggers

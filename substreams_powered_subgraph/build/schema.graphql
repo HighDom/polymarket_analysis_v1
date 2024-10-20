@@ -1,0 +1,6 @@
+type PayoutRedemption @entity(immutable: true) {
+  id: ID!
+  payout: String!
+  blockNumber: BigInt!
+  transactionHash: String!
+}
