@@ -53,6 +53,16 @@ async function fetchData(id: string): Promise<{ account: AccountData }> {
   return data;
 }
 
+function getBackgroundColorTrade(profitValue: number): string {
+  if (profitValue > 0) {
+    return "bg-green";
+  } else if (profitValue < 0) {
+    return "bg-red";
+  } else {
+    return "";
+  }
+}
+
 export default function ProfitLossPage() {
   const [id, setId] = useState("0x569454cb394f29627f8ab5a673f9da99be8e0aa5");
   const [data, setData] = useState<{ account: AccountData } | null>(null);
@@ -148,27 +158,34 @@ export default function ProfitLossPage() {
 
           <h2 className="text-2xl font-semibold mb-4">Market Profits</h2>
           <div className="overflow-x-auto">
-            <table className="table-auto w-full text-left text-sm bg-white shadow rounded">
+            <table className="table-auto w-full text-left text-sm shadow rounded">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="px-4 py-2">ID</th>
+                  <th className="px-4 py-2">Background Color</th>
                   <th className="px-4 py-2">Profit in USDC</th>
                 </tr>
               </thead>
               <tbody>
-                {data.account.marketProfits.map(mp => (
-                  <tr key={mp.id} className="border-t hover:bg-gray-100">
-                    <td className="px-4 py-2">
-                      <ExpandableCopyField value={mp.id} />
-                    </td>
-                    <td className="px-4 py-2">
-                      {(parseFloat(mp.profit) / 1e6).toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </td>
-                  </tr>
-                ))}
+                {data.account.marketProfits.map(mp => {
+                  const profitValue = parseFloat(mp.profit) / 1e6;
+                  const rowBackgroundColor = getBackgroundColorTrade(profitValue) || "";
+
+                  return (
+                    <tr key={mp.id} className={`border-t hover:bg-gray-100  ${rowBackgroundColor}`}>
+                      <td className="px-4 py-2">
+                        <ExpandableCopyField value={mp.id} />
+                      </td>
+                      <td className="px-4 py-2">{rowBackgroundColor}</td>
+                      <td className="px-4 py-2">
+                        {profitValue.toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
